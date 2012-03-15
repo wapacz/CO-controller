@@ -3,7 +3,7 @@
  *  Author:  	Michal Lapacz
  *  Date:    	2012-01-05
  *  Designation: AVR ATMega16 [F_CPU=16MHz]
- *  Description: Controls CO stone, and other CO devices for example boiler.
+ *  Description: Controls furnace, and other heating devices for example boiler.
  */
 
 /****************************************************************************
@@ -24,6 +24,7 @@
 #include "1wire.h"
 #include "ds18x20.h"
 #include "crc.h"
+#include "task_manager.h"
 #include "return_codes.h"
 #include "basic_types.h"
 
@@ -36,6 +37,7 @@ volatile unsigned int iter, key, port;
 char buffer[25];
 volatile uint8_t second;
 DS1307_DATA rtc_ds1307_data;
+TaskQueue taskQueue;
 
 /****************************************************************************
  * MAIN FUNCTION
@@ -117,6 +119,12 @@ int main()
 	iter = 0;
 
 	init();
+
+	/*** INITIALIZE OS ***/
+	//taskQueue = TaskQueue_Create();
+	//while(1)
+	//	TaskQueue_ExecuteNext(&taskQueue);
+
 
 	while(1) 
 	{
