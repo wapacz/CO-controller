@@ -1,0 +1,4 @@
+CO controller
+=============
+Controller of cetral heating system in home.
+Designed for uP AVR Atmega16 with 16MHz.
