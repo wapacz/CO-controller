@@ -23,6 +23,5 @@
  * FUNCTIONS
  */
 
-int main();
 
 #endif

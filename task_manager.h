@@ -1,5 +1,5 @@
-#ifndef _TASK_MANAGER_H_
-#define _TASK_MANAGER_H_
+#ifndef _task_manager_h_
+#define _task_manager_h_
 
 typedef struct st_Task {
 	void (*execute) (int data);
@@ -20,6 +20,7 @@ typedef struct st_TASK_QUEUE {
 } TaskQueue;
 TaskQueue TaskQueue_Create();
 void TaskQueue_Add(TaskQueue* this, void (*execute)(int), int data);
+void TaskQueue_AddExisting(TaskQueue* this, Task* existing_task_p);
 void TaskQueue_ExecuteNext(TaskQueue* this);
 
 

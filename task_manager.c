@@ -36,13 +36,19 @@ TaskQueue TaskQueue_Create() {
 
 void TaskQueue_Add(TaskQueue* this, void (*execute)(int), int data) {
 	
+	Task *task_p = CreateTask(execute, data);
+	TaskQueue_AddExisting(this, task_p);
+}
+
+void TaskQueue_AddExisting(TaskQueue* this, Task* existing_task_p) {
+	
 	Task *task_p;
 	
 	//put into queue
 	if(this->HEAD == NULL) { // => queue empty
 
 		/* create new queue element */
-		this->HEAD = CreateTask(execute, data);
+		this->HEAD = existing_task_p;
 	}
 	else {  // => queue not empty
 
@@ -52,7 +58,7 @@ void TaskQueue_Add(TaskQueue* this, void (*execute)(int), int data) {
 			task_p = task_p->next_p;
 		}
 
-		task_p->next_p = CreateTask(execute, data);
+		task_p->next_p = existing_task_p;
 	}
 	
 	// increase element counter
@@ -142,7 +148,7 @@ void TimerQueue_Tick(TimerQueue* this, TaskQueue* taskQueue) {
 	if(this->HEAD != NULL) {
 		this->HEAD->delay--;
 		if(this->HEAD->delay == 0) { // time expired
-			TaskQueue_Add(taskQueue, this->HEAD->execute, this->HEAD->data);
+			TaskQueue_AddExisting(taskQueue, this->HEAD);
 			this->HEAD = this->HEAD->next_p; // move HEAD to next element, even it's NULL
 		}
 	}
